@@ -25,7 +25,7 @@ Check postman json file for request examples
 1. Contact with support to get your credentials (support ask for server address IP which make request)
 2. Obtain an access token
 ```shell
-curl -X POST http://localhost/oauth/token \
+curl -X POST https://tcs.schdeveloper.pl/oauth/token 
      -H "Content-Type: application/json" \
      -d '{
        "grant_type": "password",
@@ -37,7 +37,7 @@ curl -X POST http://localhost/oauth/token \
 ```
 3. Get departments
 ```shell
-curl -X POST http://localhost/api/departments \
+curl -X POST https://tcs.schdeveloper.pl/api/departments 
      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
      -H "Accept: application/json"
 ```
@@ -55,7 +55,7 @@ curl -X POST http://localhost/api/departments \
 ```
 4. Get ticket types
 ```shell
-curl -X POST http://localhost/api/ticket-types \
+curl -X POST https://tcs.schdeveloper.pl/api/ticket-types 
 ```
 
 *Response:*
@@ -77,7 +77,7 @@ curl -X POST http://localhost/api/ticket-types \
 ```
 5.Buy a ticket
 ```shell
-curl -X POST http://localhost/api/tickets/buy \
+curl -X POST https://tcs.schdeveloper.pl/api/tickets/buy 
      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
      -H "Content-Type: application/json" \
      -H "Accept: application/json" \
@@ -155,4 +155,4 @@ Authorization: Bearer YOUR_ACCESS_TOKEN
 
 ##  Support
 
-For support, please contact [your-email@example.com] or open an issue in this repository.
+For support, please contact support@schdeveloper.pl or open an issue in this repository.
