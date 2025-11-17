@@ -5,7 +5,7 @@ A robust REST API for managing ticket sales, departments, and ticket types with 
 
 @owner:
 </br>
-<img  style="width: 100px" src="http://kfkserwis.pl/wp-content/uploads/2020/11/kfk.png">
+<img style="width: 100px" src="http://kfkserwis.pl/wp-content/uploads/2020/11/kfk.png">
 </br>
 http://kfkserwis.pl/
 
@@ -15,22 +15,79 @@ http://kfkserwis.pl/
 </br>
 https://schdeveloper.pl/
 
+___
 
-## 📋 Table of Contents
+## Very Quick Start 
+Check postman json file for request examples
 
-- [Overview](#overview)
-- [Features](#features)
-- [Authentication](#authentication)
-- [Base URL](#base-url)
-- [Endpoints](#endpoints)
-    - [Authentication](#authentication-endpoints)
-    - [Departments](#departments-endpoints)
-    - [Ticket Types](#ticket-types-endpoints)
-    - [Tickets](#tickets-endpoints)
-- [Response Format](#response-format)
-- [Error Handling](#error-handling)
-- [Postman Collection](#postman-collection)
-- [Getting Started](#getting-started)
+## Quick Start
+ 
+1. Contact with support to get your credentials (support ask for server address IP which make request)
+2. Obtain an access token
+```shell
+curl -X POST http://localhost/oauth/token \
+     -H "Content-Type: application/json" \
+     -d '{
+       "grant_type": "password",
+       "client_id": "YOUR_CLIENT_ID",
+       "client_secret": "YOUR_CLIENT_SECRET",
+       "username": "YOUR_EMAIL",
+       "password": "YOUR_PASSWORD"
+     }'
+```
+3. Get departments
+```shell
+curl -X POST http://localhost/api/departments \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+     -H "Accept: application/json"
+```
+*Response:*
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "department_id": 2, // use this id in ticket purchase endpoint
+            "name": "MPK Warszawa" 
+        }
+    ]
+}
+```
+4. Get ticket types
+```shell
+curl -X POST http://localhost/api/ticket-types \
+```
+
+*Response:*
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 59, // use this id in ticket purchase endpoint
+      "name": "1 przejazdowy",
+      "description": "opis...",
+      "price": 1.5,
+      "duration": 1,
+      "duration_unit": "przejazd",
+      "ticket_type_code": "1_przejazdowy"
+    }
+  ]
+}
+```
+5.Buy a ticket
+```shell
+curl -X POST http://localhost/api/tickets/buy \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json" \
+     -d '{
+       "ticket_type_id": 59, // selected ticket_type_id from 4th step
+       "department_id": 2 // selected department_id from 3rd step
+     }'
+ ```
+
+___
 
 ## 🎯 Overview
 
@@ -53,3 +110,49 @@ This API uses **OAuth 2.0** with password grant type. All authenticated endpoint
 **Endpoint:** `POST /oauth/token`
 
 **Request Body:**
+```json
+{
+    "grant_type": "password",
+    "client_id": "YOUR_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET",
+    "username": "YOUR_EMAIL",
+    "password": "YOUR_PASSWORD",
+    "scope": ""
+}
+```
+**Response** 
+```json
+{
+  "access_token": "...",
+  "refresh_token": "...",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+### Getting an Access Token
+
+**Endpoint:** `POST /oauth/token`
+
+**Request Body:**
+
+```json
+{
+    "grant_type": "refresh_token",
+    "refresh_token": "YOUR_REFRESH_TOKEN",
+    "client_id": "YOUR_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET",
+    "scope": "*"
+}
+```
+
+
+### Using the Token
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+
+##  Support
+
+For support, please contact [your-email@example.com] or open an issue in this repository.
